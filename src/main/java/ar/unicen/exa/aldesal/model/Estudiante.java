@@ -41,6 +41,10 @@ public class Estudiante {
         this.genero = genero;
     }
 
+    public Estudiante() {
+
+    }
+
     public Integer getDni() {
         return dni;
     }

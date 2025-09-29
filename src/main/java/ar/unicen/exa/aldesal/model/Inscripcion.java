@@ -33,6 +33,9 @@ public class Inscripcion {
         this.inscripcion = inscripcion;
     }
 
+    public Inscripcion() {
+    }
+
     public Integer getId() {
         return id;
     }

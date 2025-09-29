@@ -14,7 +14,4 @@ public interface EstudianteRepository {
     public EstadoOperacionDTO<EstudianteDTO> obtenerPorLibreta(Integer nroLibreta);
     public EstadoOperacionDTO<List<EstudianteDTO>> obtenerTodosSegunGenero(String genero);
 
-
-
-
 }

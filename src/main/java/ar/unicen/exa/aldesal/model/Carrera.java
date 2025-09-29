@@ -23,6 +23,10 @@ public class Carrera {
         this.nombre = nombre;
     }
 
+    public Carrera() {
+
+    }
+
     public Integer getId() {
         return id;
     }
