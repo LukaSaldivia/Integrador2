@@ -1,7 +1,7 @@
 package ar.unicen.exa.aldesal.dto;
 
 public class EstudianteDTO {
-    private int dni;
+    private Long dni;
     private int nroLibreta;
     private String nombre;
     private String apellido;
@@ -9,7 +9,7 @@ public class EstudianteDTO {
     private String ciudad;
     private String genero;
 
-    public EstudianteDTO(int dni, int nroLibreta, String nombre, String apellido, int edad, String ciudad, String genero) {
+    public EstudianteDTO(Long dni, int nroLibreta, String nombre, String apellido, int edad, String ciudad, String genero) {
         this.dni = dni;
         this.nroLibreta = nroLibreta;
         this.nombre = nombre;
@@ -19,7 +19,7 @@ public class EstudianteDTO {
         this.genero = genero;
     }
 
-    public int getDni() {
+    public Long getDni() {
         return dni;
     }
 

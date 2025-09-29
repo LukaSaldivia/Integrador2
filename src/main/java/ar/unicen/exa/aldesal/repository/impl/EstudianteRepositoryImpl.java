@@ -4,21 +4,24 @@ import ar.unicen.exa.aldesal.dto.EstadoOperacionDTO;
 import ar.unicen.exa.aldesal.dto.EstudianteDTO;
 import ar.unicen.exa.aldesal.repository.EstudianteRepository;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 public class EstudianteRepositoryImpl implements EstudianteRepository {
-
-
-
+    public EntityManager em;
+    public EstudianteRepositoryImpl(EntityManager em) {
+        this.em = em;
+    }
     @Override
     public EstadoOperacionDTO<EstudianteDTO> guardar(EstudianteDTO estudiante) {
-
-    }
-
-    @Override
-    public EstadoOperacionDTO<EstudianteDTO> matricular(EstudianteDTO estudiante, Integer id_carrera) {
+        if (estudiante.getDni() == null) {
+            em.persist(estudiante);
+        }
+        else
+            em.merge(estudiante);
         return null;
     }
+
 
     @Override
     public EstadoOperacionDTO<List<EstudianteDTO>> obtenerTodos() {
