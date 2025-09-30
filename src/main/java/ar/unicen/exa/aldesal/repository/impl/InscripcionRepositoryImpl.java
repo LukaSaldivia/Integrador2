@@ -14,6 +14,7 @@ public class InscripcionRepositoryImpl implements InscripcionRepository {
         this.em = em;
     }
 
+    //Inciso 2.b) matricular un estudiante en una carrera
     @Override
     public EstadoOperacionDTO<EstudianteDTO> matricular(EstudianteDTO estudiante, Integer id_carrera) {
         Long estudianteDni = estudiante.getDni();

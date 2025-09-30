@@ -5,6 +5,8 @@ import ar.unicen.exa.aldesal.dto.EstudianteDTO;
 import ar.unicen.exa.aldesal.repository.EstudianteRepository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class EstudianteRepositoryImpl implements EstudianteRepository {
@@ -12,6 +14,8 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
     public EstudianteRepositoryImpl(EntityManager em) {
         this.em = em;
     }
+
+    //Inciso 2.a) dar de alta un estudiante
     @Override
     public EstadoOperacionDTO<EstudianteDTO> guardar(EstudianteDTO estudiante) {
         if (estudiante.getDni() == null) {
@@ -22,19 +26,36 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
         return null;
     }
 
-
+    //Inciso 2.c) recuperar todos los estudiantes, y especificar algún criterio de ordenamiento simple.
     @Override
     public EstadoOperacionDTO<List<EstudianteDTO>> obtenerTodos() {
+        String sortOrder = " ASC";
+        String orderBy = " .dni";
+        String query = "SELECT e FROM Estudiante e" + orderBy + " " + sortOrder;
+        Query q = em.createQuery(query);
+        List<EstudianteDTO> estudiantes = q.getResultList();
+        em.close();
         return null;
     }
 
+    //Inciso 2.d) recuperar un estudiante, en base a su número de libreta universitaria.
     @Override
     public EstadoOperacionDTO<EstudianteDTO> obtenerPorLibreta(Integer nroLibreta) {
+        String query =  "SELECT e FROM Estudiante e WHERE e.nroLibreta =:libreta";
+        TypedQuery<EstudianteDTO> q = em.createQuery(query, EstudianteDTO.class);
+        q.setParameter("libreta", nroLibreta);
+        EstudianteDTO estudiante = q.getSingleResult();
+        em.close();
         return null;
     }
-
+    //Incisco 2.e) recuperar todos los estudiantes, en base a su género.
     @Override
     public EstadoOperacionDTO<List<EstudianteDTO>> obtenerTodosSegunGenero(String genero) {
+        String query = "SELECT e FROM Estudiante e WHERE e.genero =:genero";
+        TypedQuery<EstudianteDTO> q = em.createQuery(query, EstudianteDTO.class);
+        q.setParameter("genero", genero);
+        List<EstudianteDTO> estudiantes = q.getResultList();
+        em.close();
         return null;
     }
 }
