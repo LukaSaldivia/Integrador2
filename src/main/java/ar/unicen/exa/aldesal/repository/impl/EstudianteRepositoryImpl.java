@@ -58,4 +58,21 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
         em.close();
         return new EstadoOperacionDTO<>(true, estudiantes);
     }
+
+
+    //Inciso 2.f) recuperar los estudiantes de una determinada carrera, filtrado por ciudad de residencia
+    @Override
+    public EstadoOperacionDTO<List<EstudianteDTO>> obtenerEstudiantesPorCarreraYCiudad(Integer id_carrera, String id_ciudad) {
+        String query = "SELECT new ar.unicen.exa.aldesal.dto.EstudianteDTO (e.dni, e.nroLibreta, e.nombre, e.apellido, e.edad, e.ciudad, e.genero) FROM Estudiante e " +
+                       "JOIN e.inscripciones i JOIN i.carrera c " +
+                        "WHERE c.id = :id_carrera AND e.ciudad = :id_ciudad";
+        TypedQuery<EstudianteDTO> q = em.createQuery(query, EstudianteDTO.class);
+        q.setParameter("id_carrera", id_carrera);
+        q.setParameter("id_ciudad", id_ciudad);
+        List<EstudianteDTO> estudiantes = q.getResultList();
+        return new EstadoOperacionDTO<>(true, estudiantes);
+    }
+
+
+
 }

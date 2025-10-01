@@ -12,5 +12,6 @@ public interface EstudianteRepository {
     public EstadoOperacionDTO<List<EstudianteDTO>> obtenerTodos();
     public EstadoOperacionDTO<EstudianteDTO> obtenerPorLibreta(Integer nroLibreta);
     public EstadoOperacionDTO<List<EstudianteDTO>> obtenerTodosSegunGenero(String genero);
+    public EstadoOperacionDTO<List<EstudianteDTO>>  obtenerEstudiantesPorCarreraYCiudad(Integer id_carrera, String id_ciudad);
 
 }
