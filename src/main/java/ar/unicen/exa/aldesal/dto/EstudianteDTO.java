@@ -47,6 +47,7 @@ public class EstudianteDTO {
         return genero;
     }
 
+
     @Override
     public String toString() {
         return "EstudianteDTO{" +

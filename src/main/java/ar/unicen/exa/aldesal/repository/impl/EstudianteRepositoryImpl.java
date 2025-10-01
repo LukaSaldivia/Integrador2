@@ -35,7 +35,7 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
         Query q = em.createQuery(query);
         List<EstudianteDTO> estudiantes = q.getResultList();
         em.close();
-        return null;
+        return new EstadoOperacionDTO<>(true, estudiantes);
     }
 
     //Inciso 2.d) recuperar un estudiante, en base a su número de libreta universitaria.
@@ -46,7 +46,7 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
         q.setParameter("libreta", nroLibreta);
         EstudianteDTO estudiante = q.getSingleResult();
         em.close();
-        return null;
+        return new EstadoOperacionDTO<>(true, estudiante);
     }
     //Incisco 2.e) recuperar todos los estudiantes, en base a su género.
     @Override
@@ -56,6 +56,6 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
         q.setParameter("genero", genero);
         List<EstudianteDTO> estudiantes = q.getResultList();
         em.close();
-        return null;
+        return new EstadoOperacionDTO<>(true, estudiantes);
     }
 }
