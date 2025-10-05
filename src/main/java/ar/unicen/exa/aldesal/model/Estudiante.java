@@ -1,9 +1,13 @@
 package ar.unicen.exa.aldesal.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import lombok.*;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
 public class Estudiante {
 
     @Id
@@ -30,7 +34,6 @@ public class Estudiante {
     @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL)
     private List<Inscripcion> inscripciones;
 
-
     public Estudiante(Integer dni, Integer nroLibreta, String nombre, String apellido, Integer edad, String ciudad, String genero) {
         this.dni = dni;
         this.nroLibreta = nroLibreta;
@@ -43,61 +46,5 @@ public class Estudiante {
 
     public Estudiante() {
 
-    }
-
-    public Integer getDni() {
-        return dni;
-    }
-
-    public void setDni(Integer dni) {
-        this.dni = dni;
-    }
-
-    public Integer getNroLibreta() {
-        return nroLibreta;
-    }
-
-    public void setNroLibreta(Integer nroLibreta) {
-        this.nroLibreta = nroLibreta;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public Integer getEdad() {
-        return edad;
-    }
-
-    public void setEdad(Integer edad) {
-        this.edad = edad;
-    }
-
-    public String getCiudad() {
-        return ciudad;
-    }
-
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
-    }
-
-    public String getGenero() {
-        return genero;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
     }
 }

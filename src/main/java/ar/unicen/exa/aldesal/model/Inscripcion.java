@@ -1,8 +1,13 @@
 package ar.unicen.exa.aldesal.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Inscripcion {
     @Id
     private  Integer id;
@@ -12,7 +17,7 @@ public class Inscripcion {
     private Carrera carrera;
 
     @ManyToOne
-    @JoinColumn(name = "id_estudiante", referencedColumnName = "id")
+    @JoinColumn(name = "id_estudiante", referencedColumnName = "dni")
     private Estudiante estudiante;
 
     @Column (nullable = false)
@@ -24,63 +29,4 @@ public class Inscripcion {
     @Column (nullable = false)
     private Integer antiguedad;
 
-    public Inscripcion(Integer id, Integer antiguedad, Integer graduacion, Estudiante estudiante, Carrera carrera, Integer inscripcion) {
-        this.id = id;
-        this.antiguedad = antiguedad;
-        this.graduacion = graduacion;
-        this.estudiante = estudiante;
-        this.carrera = carrera;
-        this.inscripcion = inscripcion;
-    }
-
-    public Inscripcion() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Carrera getCarrera() {
-        return carrera;
-    }
-
-    public void setCarrera(Carrera carrera) {
-        this.carrera = carrera;
-    }
-
-    public Estudiante getEstudiante() {
-        return estudiante;
-    }
-
-    public void setEstudiante(Estudiante estudiante) {
-        this.estudiante = estudiante;
-    }
-
-    public Integer getInscripcion() {
-        return inscripcion;
-    }
-
-    public void setInscripcion(Integer inscripcion) {
-        this.inscripcion = inscripcion;
-    }
-
-    public Integer getGraduacion() {
-        return graduacion;
-    }
-
-    public void setGraduacion(Integer graduacion) {
-        this.graduacion = graduacion;
-    }
-
-    public Integer getAntiguedad() {
-        return antiguedad;
-    }
-
-    public void setAntiguedad(Integer antiguedad) {
-        this.antiguedad = antiguedad;
-    }
 }

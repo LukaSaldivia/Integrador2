@@ -6,5 +6,6 @@ import ar.unicen.exa.aldesal.dto.EstadoOperacionDTO;
 import java.util.List;
 
 public interface CarreraRepository {
+    public void insertarDesdeCSV(String rutaArchivo);
     public EstadoOperacionDTO<List<CarreraDTO>> getCarrerasOrderByCantInscriptos();
 }

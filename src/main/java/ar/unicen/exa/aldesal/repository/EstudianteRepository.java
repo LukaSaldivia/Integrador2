@@ -7,7 +7,7 @@ import ar.unicen.exa.aldesal.dto.EstudianteDTO;
 import java.util.List;
 
 public interface EstudianteRepository {
-
+    public void insertarDesdeCSV(String rutaArchivo);
     public EstadoOperacionDTO<EstudianteDTO> guardar(EstudianteDTO estudiante);
     public EstadoOperacionDTO<List<EstudianteDTO>> obtenerTodos();
     public EstadoOperacionDTO<EstudianteDTO> obtenerPorLibreta(Integer nroLibreta);

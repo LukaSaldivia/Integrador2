@@ -4,5 +4,6 @@ import ar.unicen.exa.aldesal.dto.EstadoOperacionDTO;
 import ar.unicen.exa.aldesal.dto.EstudianteDTO;
 
 public interface InscripcionRepository {
+    public void insertarDesdeCSV(String rutaArchivo);
     public EstadoOperacionDTO<EstudianteDTO> matricular(EstudianteDTO estudiante, Integer id_carrera);
 }

@@ -2,17 +2,47 @@ package ar.unicen.exa.aldesal.repository.impl;
 
 import ar.unicen.exa.aldesal.dto.EstadoOperacionDTO;
 import ar.unicen.exa.aldesal.dto.EstudianteDTO;
+import ar.unicen.exa.aldesal.model.Estudiante;
 import ar.unicen.exa.aldesal.repository.EstudianteRepository;
+import com.opencsv.CSVReader;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
+import java.io.FileReader;
 import java.util.List;
 
 public class EstudianteRepositoryImpl implements EstudianteRepository {
-    public EntityManager em;
+    private EntityManager em;
     public EstudianteRepositoryImpl(EntityManager em) {
         this.em = em;
+    }
+
+    @Override
+    public void insertarDesdeCSV(String rutaArchivo) {
+        try (CSVReader reader = new CSVReader(new FileReader(rutaArchivo))) {
+            String[] linea;
+            reader.readNext(); // salta cabecera
+
+            this.em.getTransaction().begin();
+
+            while ((linea = reader.readNext()) != null) {
+                Estudiante estudiante = new Estudiante();
+                estudiante.setDni(Integer.parseInt(linea[0]));
+                estudiante.setNombre(linea[1]);
+                estudiante.setApellido(linea[2]);
+                estudiante.setEdad(Integer.parseInt(linea[3]));
+                estudiante.setGenero(linea[4]);
+                estudiante.setCiudad(linea[5]);
+                estudiante.setNroLibreta(Integer.parseInt(linea[6]));
+
+                this.em.persist(estudiante);
+            }
+
+            this.em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //Inciso 2.a) dar de alta un estudiante
