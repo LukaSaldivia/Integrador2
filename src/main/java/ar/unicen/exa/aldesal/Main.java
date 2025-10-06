@@ -1,5 +1,6 @@
 package ar.unicen.exa.aldesal;
 
+import ar.unicen.exa.aldesal.dto.EstadoOperacionDTO;
 import ar.unicen.exa.aldesal.factory.JPAUtil;
 import ar.unicen.exa.aldesal.model.Estudiante;
 import ar.unicen.exa.aldesal.repository.CarreraRepository;
@@ -26,10 +27,16 @@ public class Main {
 
             InscripcionRepository ir = new InscripcionRepositoryImpl(em3);
             ir.insertarDesdeCSV("src/main/resources/estudianteCarrera.csv");
+
+            EstadoOperacionDTO estadoOperacionDTO = cr.getReporte();
+            System.out.println(estadoOperacionDTO.getExito());
+            System.out.println(estadoOperacionDTO.getDatos());
+
         } finally {
             em1.close();
             em2.close();
             em3.close();
         }
     }
+
 }

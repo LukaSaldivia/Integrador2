@@ -72,5 +72,6 @@ public class InscripcionRepositoryImpl implements InscripcionRepository {
         }
         return new EstadoOperacionDTO<>( true, estudiante);
 
+
     }
 }
