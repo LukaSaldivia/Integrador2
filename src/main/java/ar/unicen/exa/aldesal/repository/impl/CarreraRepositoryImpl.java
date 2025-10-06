@@ -68,15 +68,16 @@ public class CarreraRepositoryImpl implements CarreraRepository {
 
         try {
             String query = """
-                    SELECT c.id,
+                    SELECT new ar.unicen.exa.aldesal.dto.ReporteDTO(
+                    c.id,
                     c.nombre,
-                    COUNT(i.inscripcion) inscriptos,
-                    COUNT(i.graduacion) graduados,
-                    i.inscripcion as anio
+                    COUNT(i.inscripcion),
+                    COUNT(i.graduacion),
+                    i.inscripcion)
                     FROM Carrera c
                     JOIN c.inscripciones i
-                    GROUP BY c.id, c.nombre, anio
-                    ORDER BY c.nombre ASC, anio ASC
+                    GROUP BY c.id, c.nombre, i.inscripcion
+                    ORDER BY c.nombre ASC, i.inscripcion ASC
                     """;
 
             response = em.createQuery(query, ReporteDTO.class).getResultList();
