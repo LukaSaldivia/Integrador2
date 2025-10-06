@@ -55,19 +55,22 @@ public class InscripcionRepositoryImpl implements InscripcionRepository {
     //Inciso 2.b) matricular un estudiante en una carrera
     @Override
     public EstadoOperacionDTO<EstudianteDTO> matricular(EstudianteDTO estudiante, Integer id_carrera) {
-        Integer estudianteDni = estudiante.getDni();
-        int inscripcion = Year.now().getValue();
-        //para checkear la tabla es con I o i?
-        Query q = em.createNativeQuery("INSERT INTO Inscripcion (id_estudiante, id_carrera, inscripcion, graduacion, antiguedad) VALUES (?,?,?,?,?)");
-        q.setParameter(1, estudianteDni);
-        q.setParameter(2, id_carrera);
-        q.setParameter(3, inscripcion);
-        q.setParameter(4, 0);
-        q.setParameter(5, 0);
-        q.executeUpdate();
-        em.close();
-        // no entendi el return
-        return null;
+        try {
+            Integer estudianteDni = estudiante.getDni();
+            int inscripcion = Year.now().getValue();
+            //para checkear la tabla es con I o i?
+            Query q = em.createNativeQuery("INSERT INTO Inscripcion (id_estudiante, id_carrera, inscripcion, graduacion, antiguedad) VALUES (?,?,?,?,?)");
+            q.setParameter(1, estudianteDni);
+            q.setParameter(2, id_carrera);
+            q.setParameter(3, inscripcion);
+            q.setParameter(4, 0);
+            q.setParameter(5, 0);
+            q.executeUpdate();
+            em.close();
+        } catch (Exception e) {
+            return new EstadoOperacionDTO<>(false, estudiante);
+        }
+        return new EstadoOperacionDTO<>( true, estudiante);
 
     }
 }
