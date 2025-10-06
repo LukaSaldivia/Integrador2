@@ -46,13 +46,17 @@ public class CarreraRepositoryImpl implements CarreraRepository {
     }
 
     // Inciso 2.f) recuperar las carreras con estudiantes inscriptos, y ordenar por cantidad de inscriptos.
+    // En esta consulta se usa un "constructor expression" de JPQL al principio del select
+    // significa que por cada resultado de la consulta se crea directamente un objeto CarreraDTO,
+    // pasando los valores al constructor: id, nombre, duración y la cantidad de estudiantes inscriptos (COUNT(i.id)).
+    // Así, el campo cantInscriptos se calcula al vuelo y se guarda en el DTO, sin estar en la entidad ni en la BD.
     @Override
     public EstadoOperacionDTO<List<CarreraDTO>> getCarrerasOrderByCantInscriptos() {
         String query = "SELECT new ar.unicen.exa.aldesal.dto.CarreraDTO(c.id, c.nombre, c.duracion, COUNT(i.id)) " +
                 "FROM Carrera c " +
                 "JOIN c.inscripciones i " +
                 "GROUP BY c.id, c.nombre, c.duracion " +
-                "ORDER BY COUNT(i.id) DESC";  // añadi un atributo en CarreraDTO que es CantInscriptos.Solo existe en el dto , se calcula al momento de ejecutar la consulta.
+                "ORDER BY COUNT(i.id) DESC";  // añadi un atributo en CarreraDTO que es CantInscriptos.
         TypedQuery<CarreraDTO> q = em.createQuery(query, CarreraDTO.class);
         List<CarreraDTO> carreras = q.getResultList();
         em.close();
