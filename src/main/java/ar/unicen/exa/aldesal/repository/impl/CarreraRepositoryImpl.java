@@ -40,8 +40,6 @@ public class CarreraRepositoryImpl implements CarreraRepository {
             this.em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            this.em.close();
         }
     }
 
@@ -72,8 +70,8 @@ public class CarreraRepositoryImpl implements CarreraRepository {
             String query = """
                     SELECT c.id,
                     c.nombre,
-                    COUNT(i.inscripcion) cantInscriptos,
-                    COUNT(i.graduacion) cantGraduados,
+                    COUNT(i.inscripcion) inscriptos,
+                    COUNT(i.graduacion) graduados,
                     i.inscripcion as anio
                     FROM Carrera c
                     JOIN c.inscripciones i
