@@ -77,7 +77,7 @@ public class CarreraRepositoryImpl implements CarreraRepository {
                     i.inscripcion as anio
                     FROM Carrera c
                     JOIN c.inscripciones i
-                    GROUP BY c.id, c.nombre, i.graduacion
+                    GROUP BY c.id, c.nombre, anio
                     ORDER BY c.nombre ASC, anio ASC
                     """;
 
