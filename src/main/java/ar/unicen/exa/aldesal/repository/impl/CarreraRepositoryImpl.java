@@ -2,8 +2,8 @@ package ar.unicen.exa.aldesal.repository.impl;
 
 import ar.unicen.exa.aldesal.dto.CarreraDTO;
 import ar.unicen.exa.aldesal.dto.EstadoOperacionDTO;
+import ar.unicen.exa.aldesal.dto.ReporteDTO;
 import ar.unicen.exa.aldesal.model.Carrera;
-import ar.unicen.exa.aldesal.model.Estudiante;
 import ar.unicen.exa.aldesal.repository.CarreraRepository;
 
 import com.opencsv.CSVReader;
@@ -61,5 +61,31 @@ public class CarreraRepositoryImpl implements CarreraRepository {
         List<CarreraDTO> carreras = q.getResultList();
         em.close();
         return new EstadoOperacionDTO<>(true, carreras);
+    }
+
+    @Override
+    public EstadoOperacionDTO<List<ReporteDTO>> getReporte() {
+
+        List<ReporteDTO> response = null;
+
+        try {
+            String query = """
+                    SELECT c.id, 
+                    c.nombre, 
+                    COUNT(i.inscripcion) cantInscriptos, 
+                    COUNT(i.graduacion) cantGraduados,
+                    i.graduacion,
+                    FROM Carrera c
+                    JOIN Inscripcion i ON i.id_carrera = c.id
+                    GROUP BY i.graduacion
+                    ORDER BY c.nombre ASC, i.graduacion ASC
+                    """;
+
+            response = em.createQuery(query, ReporteDTO.class).getResultList();
+        }catch (Exception e) {
+            return new EstadoOperacionDTO<>(false, null);
+        }
+
+        return new EstadoOperacionDTO<>(true, response);
     }
 }
