@@ -12,6 +12,7 @@ import jakarta.persistence.TypedQuery;
 import java.io.FileReader;
 import java.util.List;
 
+
 public class EstudianteRepositoryImpl implements EstudianteRepository {
     private EntityManager em;
     public EstudianteRepositoryImpl(EntityManager em) {
@@ -52,7 +53,7 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
             em.getTransaction().begin();
             em.persist(estudiante);
             em.getTransaction().commit();
-            em.close();
+//            em.close();
         }catch (Exception e) {
             return new EstadoOperacionDTO<>(false, null);
         }
