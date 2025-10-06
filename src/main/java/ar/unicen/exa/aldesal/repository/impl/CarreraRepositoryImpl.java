@@ -67,6 +67,7 @@ public class CarreraRepositoryImpl implements CarreraRepository {
     public EstadoOperacionDTO<List<ReporteDTO>> getReporte() {
 
         List<ReporteDTO> response = null;
+        em.getTransaction().begin();
 
         try {
             String query = """
@@ -83,9 +84,13 @@ public class CarreraRepositoryImpl implements CarreraRepository {
 
             response = em.createQuery(query, ReporteDTO.class).getResultList();
         }catch (Exception e) {
+            em.getTransaction().commit();
+            em.close();
             return new EstadoOperacionDTO<>(false, null);
         }
 
+        em.getTransaction().commit();
+        em.close();
         return new EstadoOperacionDTO<>(true, response);
     }
 }
