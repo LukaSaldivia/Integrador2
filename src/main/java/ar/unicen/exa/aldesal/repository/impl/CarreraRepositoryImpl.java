@@ -70,14 +70,14 @@ public class CarreraRepositoryImpl implements CarreraRepository {
 
         try {
             String query = """
-                    SELECT c.id, 
-                    c.nombre, 
-                    COUNT(i.inscripcion) cantInscriptos, 
+                    SELECT c.id,
+                    c.nombre,
+                    COUNT(i.inscripcion) cantInscriptos,
                     COUNT(i.graduacion) cantGraduados,
-                    i.graduacion,
+                    i.graduacion
                     FROM Carrera c
-                    JOIN Inscripcion i ON i.id_carrera = c.id
-                    GROUP BY i.graduacion
+                    JOIN c.inscripciones i
+                    GROUP BY c.id, c.nombre, i.graduacion
                     ORDER BY c.nombre ASC, i.graduacion ASC
                     """;
 
