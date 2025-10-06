@@ -90,7 +90,7 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
     }
 
 
-    //Inciso 2.f) recuperar los estudiantes de una determinada carrera, filtrado por ciudad de residencia
+    //Inciso 2.g) recuperar los estudiantes de una determinada carrera, filtrado por ciudad de residencia
     @Override
     public EstadoOperacionDTO<List<EstudianteDTO>> obtenerEstudiantesPorCarreraYCiudad(Integer id_carrera, String id_ciudad) {
         String query = "SELECT new ar.unicen.exa.aldesal.dto.EstudianteDTO (e.dni, e.nroLibreta, e.nombre, e.apellido, e.edad, e.ciudad, e.genero) FROM Estudiante e " +
