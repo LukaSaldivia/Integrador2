@@ -47,8 +47,6 @@ public class InscripcionRepositoryImpl implements InscripcionRepository {
             this.em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            this.em.close();
         }
     }
 
@@ -58,7 +56,6 @@ public class InscripcionRepositoryImpl implements InscripcionRepository {
         try {
             Integer estudianteDni = estudiante.getDni();
             int inscripcion = Year.now().getValue();
-            //para checkear la tabla es con I o i?
             Query q = em.createNativeQuery("INSERT INTO Inscripcion (id_estudiante, id_carrera, inscripcion, graduacion, antiguedad) VALUES (?,?,?,?,?)");
             q.setParameter(1, estudianteDni);
             q.setParameter(2, id_carrera);
@@ -66,7 +63,6 @@ public class InscripcionRepositoryImpl implements InscripcionRepository {
             q.setParameter(4, 0);
             q.setParameter(5, 0);
             q.executeUpdate();
-            em.close();
         } catch (Exception e) {
             return new EstadoOperacionDTO<>(false, estudiante);
         }

@@ -57,7 +57,6 @@ public class CarreraRepositoryImpl implements CarreraRepository {
                 "ORDER BY COUNT(i.id) DESC";  // añadi un atributo en CarreraDTO que es CantInscriptos.
         TypedQuery<CarreraDTO> q = em.createQuery(query, CarreraDTO.class);
         List<CarreraDTO> carreras = q.getResultList();
-        em.close();
         return new EstadoOperacionDTO<>(true, carreras);
     }
 
