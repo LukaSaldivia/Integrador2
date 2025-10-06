@@ -65,7 +65,7 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
     public EstadoOperacionDTO<List<EstudianteDTO>> obtenerTodos() {
         String sortOrder = " ASC";
         String orderBy = " .dni";
-        String query = "SELECT e FROM Estudiante e" + orderBy + " " + sortOrder;
+        String query = "SELECT new ar.unicen.exa.aldesal.dto.EstudianteDTO(e.dni, e.nroLibreta, e.nombre, e.apellido, e.edad, e.ciudad, e.genero) FROM Estudiante e" + orderBy + " " + sortOrder;
         Query q = em.createQuery(query);
         List<EstudianteDTO> estudiantes = q.getResultList();
         em.close();
@@ -75,7 +75,7 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
     //Inciso 2.d) recuperar un estudiante, en base a su número de libreta universitaria.
     @Override
     public EstadoOperacionDTO<EstudianteDTO> obtenerPorLibreta(Integer nroLibreta) {
-        String query =  "SELECT e FROM Estudiante e WHERE e.nroLibreta =:libreta";
+        String query =  "SELECT new ar.unicen.exa.aldesal.dto.EstudianteDTO(e.dni, e.nroLibreta, e.nombre, e.apellido, e.edad, e.ciudad, e.genero) FROM Estudiante e WHERE e.nroLibreta =:libreta";
         TypedQuery<EstudianteDTO> q = em.createQuery(query, EstudianteDTO.class);
         q.setParameter("libreta", nroLibreta);
         EstudianteDTO estudiante = q.getSingleResult();
@@ -85,7 +85,7 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
     //Incisco 2.e) recuperar todos los estudiantes, en base a su género.
     @Override
     public EstadoOperacionDTO<List<EstudianteDTO>> obtenerTodosSegunGenero(String genero) {
-        String query = "SELECT e FROM Estudiante e WHERE e.genero =:genero";
+        String query = "SELECT new ar.unicen.exa.aldesal.dto.EstudianteDTO (e.dni, e.nroLibreta, e.nombre, e.apellido, e.edad, e.ciudad, e.genero) FROM Estudiante e WHERE e.genero =:genero";
         TypedQuery<EstudianteDTO> q = em.createQuery(query, EstudianteDTO.class);
         q.setParameter("genero", genero);
         List<EstudianteDTO> estudiantes = q.getResultList();
