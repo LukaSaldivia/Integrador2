@@ -74,11 +74,11 @@ public class CarreraRepositoryImpl implements CarreraRepository {
                     c.nombre,
                     COUNT(i.inscripcion) cantInscriptos,
                     COUNT(i.graduacion) cantGraduados,
-                    i.graduacion
+                    i.inscripcion as anio
                     FROM Carrera c
                     JOIN c.inscripciones i
                     GROUP BY c.id, c.nombre, i.graduacion
-                    ORDER BY c.nombre ASC, i.graduacion ASC
+                    ORDER BY c.nombre ASC, anio ASC
                     """;
 
             response = em.createQuery(query, ReporteDTO.class).getResultList();
