@@ -48,12 +48,15 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
     //Inciso 2.a) dar de alta un estudiante
     @Override
     public EstadoOperacionDTO<EstudianteDTO> guardar(EstudianteDTO estudiante) {
-        if (estudiante.getDni() == null) {
+        try {
+            em.getTransaction().begin();
             em.persist(estudiante);
+            em.getTransaction().commit();
+            em.close();
+        }catch (Exception e) {
+            return new EstadoOperacionDTO<>(false, null);
         }
-        else
-            em.merge(estudiante);
-        return null;
+        return new EstadoOperacionDTO<>(true, estudiante);
     }
 
     //Inciso 2.c) recuperar todos los estudiantes, y especificar algún criterio de ordenamiento simple.

@@ -55,7 +55,7 @@ public class InscripcionRepositoryImpl implements InscripcionRepository {
     //Inciso 2.b) matricular un estudiante en una carrera
     @Override
     public EstadoOperacionDTO<EstudianteDTO> matricular(EstudianteDTO estudiante, Integer id_carrera) {
-        Long estudianteDni = estudiante.getDni();
+        Integer estudianteDni = estudiante.getDni();
         int inscripcion = Year.now().getValue();
         //para checkear la tabla es con I o i?
         Query q = em.createNativeQuery("INSERT INTO Inscripcion (id_estudiante, id_carrera, inscripcion, graduacion, antiguedad) VALUES (?,?,?,?,?)");
