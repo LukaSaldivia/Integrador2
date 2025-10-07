@@ -53,7 +53,6 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
             em.getTransaction().begin();
             em.persist(estudiante);
             em.getTransaction().commit();
-//            em.close();
         }catch (Exception e) {
             return new EstadoOperacionDTO<>(false, null);
         }
@@ -64,47 +63,66 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
     //Inciso 2.c) recuperar todos los estudiantes, y especificar algún criterio de ordenamiento simple.
     @Override
     public EstadoOperacionDTO<List<EstudianteDTO>> obtenerTodos() {
-        String sortOrder = " ASC";
-        String orderBy = " .dni";
-        String query = "SELECT new ar.unicen.exa.aldesal.dto.EstudianteDTO(e.dni, e.nroLibreta, e.nombre, e.apellido, e.edad, e.ciudad, e.genero) FROM Estudiante e" + orderBy + " " + sortOrder;
-        Query q = em.createQuery(query);
-        List<EstudianteDTO> estudiantes = q.getResultList();
-        em.close();
+        List<EstudianteDTO> estudiantes = null;
+        try {
+            String sortOrder = "ASC";  // orden ascendente
+            String orderBy = "e.dni";  // campo por el cual se ordena
+            String query = "SELECT new ar.unicen.exa.aldesal.dto.EstudianteDTO(" +
+                    "e.dni, e.nroLibreta, e.nombre, e.apellido, e.edad, e.ciudad, e.genero) " +
+                    "FROM Estudiante e " +
+                    "ORDER BY " + orderBy + " " + sortOrder;
+            Query q = em.createQuery(query,  EstudianteDTO.class);
+            estudiantes = q.getResultList();
+        } catch (Exception e) {
+            return new EstadoOperacionDTO<>(false, null);
+        }
         return new EstadoOperacionDTO<>(true, estudiantes);
     }
 
     //Inciso 2.d) recuperar un estudiante, en base a su número de libreta universitaria.
     @Override
     public EstadoOperacionDTO<EstudianteDTO> obtenerPorLibreta(Integer nroLibreta) {
-        String query =  "SELECT new ar.unicen.exa.aldesal.dto.EstudianteDTO(e.dni, e.nroLibreta, e.nombre, e.apellido, e.edad, e.ciudad, e.genero) FROM Estudiante e WHERE e.nroLibreta =:libreta";
-        TypedQuery<EstudianteDTO> q = em.createQuery(query, EstudianteDTO.class);
-        q.setParameter("libreta", nroLibreta);
-        EstudianteDTO estudiante = q.getSingleResult();
-        em.close();
+        EstudianteDTO estudiante = null;
+        try {
+            String query =  "SELECT new ar.unicen.exa.aldesal.dto.EstudianteDTO(e.dni, e.nroLibreta, e.nombre, e.apellido, e.edad, e.ciudad, e.genero) FROM Estudiante e WHERE e.nroLibreta =:libreta";
+            TypedQuery<EstudianteDTO> q = em.createQuery(query, EstudianteDTO.class);
+            q.setParameter("libreta", nroLibreta);
+            estudiante = q.getSingleResult();
+        } catch (Exception e) {
+            return new EstadoOperacionDTO<>(false, null);
+        }
         return new EstadoOperacionDTO<>(true, estudiante);
     }
     //Incisco 2.e) recuperar todos los estudiantes, en base a su género.
     @Override
     public EstadoOperacionDTO<List<EstudianteDTO>> obtenerTodosSegunGenero(String genero) {
-        String query = "SELECT new ar.unicen.exa.aldesal.dto.EstudianteDTO (e.dni, e.nroLibreta, e.nombre, e.apellido, e.edad, e.ciudad, e.genero) FROM Estudiante e WHERE e.genero =:genero";
-        TypedQuery<EstudianteDTO> q = em.createQuery(query, EstudianteDTO.class);
-        q.setParameter("genero", genero);
-        List<EstudianteDTO> estudiantes = q.getResultList();
-        em.close();
+        List<EstudianteDTO> estudiantes = null;
+        try {
+            String query = "SELECT new ar.unicen.exa.aldesal.dto.EstudianteDTO (e.dni, e.nroLibreta, e.nombre, e.apellido, e.edad, e.ciudad, e.genero) FROM Estudiante e WHERE e.genero =:genero";
+            TypedQuery<EstudianteDTO> q = em.createQuery(query, EstudianteDTO.class);
+            q.setParameter("genero", genero);
+            estudiantes = q.getResultList();
+        } catch (Exception e) {
+            return new EstadoOperacionDTO<>(false, null);
+        }
         return new EstadoOperacionDTO<>(true, estudiantes);
     }
-
 
     //Inciso 2.g) recuperar los estudiantes de una determinada carrera, filtrado por ciudad de residencia
     @Override
     public EstadoOperacionDTO<List<EstudianteDTO>> obtenerEstudiantesPorCarreraYCiudad(Integer id_carrera, String id_ciudad) {
-        String query = "SELECT new ar.unicen.exa.aldesal.dto.EstudianteDTO (e.dni, e.nroLibreta, e.nombre, e.apellido, e.edad, e.ciudad, e.genero) FROM Estudiante e " +
-                       "JOIN e.inscripciones i JOIN i.carrera c " +
-                        "WHERE c.id = :id_carrera AND e.ciudad = :id_ciudad";
-        TypedQuery<EstudianteDTO> q = em.createQuery(query, EstudianteDTO.class);
-        q.setParameter("id_carrera", id_carrera);
-        q.setParameter("id_ciudad", id_ciudad);
-        List<EstudianteDTO> estudiantes = q.getResultList();
+        List<EstudianteDTO> estudiantes = null;
+        try {
+            String query = "SELECT DISTINCT new ar.unicen.exa.aldesal.dto.EstudianteDTO (e.dni, e.nroLibreta, e.nombre, e.apellido, e.edad, e.ciudad, e.genero) FROM Estudiante e " +
+                           "JOIN e.inscripciones i JOIN i.carrera c " +
+                            "WHERE c.id = :id_carrera AND e.ciudad = :id_ciudad";
+            TypedQuery<EstudianteDTO> q = em.createQuery(query, EstudianteDTO.class);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("id_ciudad", id_ciudad);
+            estudiantes = q.getResultList();
+        } catch (Exception e) {
+            return new EstadoOperacionDTO<>(false, null);
+        }
         return new EstadoOperacionDTO<>(true, estudiantes);
     }
 

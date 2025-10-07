@@ -60,6 +60,8 @@ public class CarreraRepositoryImpl implements CarreraRepository {
         return new EstadoOperacionDTO<>(true, carreras);
     }
 
+    //3) Generar un reporte de las carreras, que para cada carrera incluya información de los
+    //   inscriptos y egresados por año.
     @Override
     public EstadoOperacionDTO<List<ReporteDTO>> getReporte() {
 

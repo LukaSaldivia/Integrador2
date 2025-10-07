@@ -2,6 +2,7 @@ package ar.unicen.exa.aldesal.repository.impl;
 
 import ar.unicen.exa.aldesal.dto.EstadoOperacionDTO;
 import ar.unicen.exa.aldesal.dto.EstudianteDTO;
+import ar.unicen.exa.aldesal.dto.InscripcionDTO;
 import ar.unicen.exa.aldesal.model.Carrera;
 import ar.unicen.exa.aldesal.model.Estudiante;
 import ar.unicen.exa.aldesal.model.Inscripcion;
@@ -52,22 +53,15 @@ public class InscripcionRepositoryImpl implements InscripcionRepository {
 
     //Inciso 2.b) matricular un estudiante en una carrera
     @Override
-    public EstadoOperacionDTO<EstudianteDTO> matricular(EstudianteDTO estudiante, Integer id_carrera) {
+    public EstadoOperacionDTO<InscripcionDTO> matricular(Inscripcion inscripcion) {
         try {
-            Integer estudianteDni = estudiante.getDni();
-            int inscripcion = Year.now().getValue();
-            Query q = em.createNativeQuery("INSERT INTO Inscripcion (id_estudiante, id_carrera, inscripcion, graduacion, antiguedad) VALUES (?,?,?,?,?)");
-            q.setParameter(1, estudianteDni);
-            q.setParameter(2, id_carrera);
-            q.setParameter(3, inscripcion);
-            q.setParameter(4, 0);
-            q.setParameter(5, 0);
-            q.executeUpdate();
+            em.getTransaction().begin();
+            em.persist(inscripcion);
+            em.getTransaction().commit();
         } catch (Exception e) {
-            return new EstadoOperacionDTO<>(false, estudiante);
+            return new EstadoOperacionDTO<>(false, null);
         }
-        return new EstadoOperacionDTO<>( true, estudiante);
-
-
+        InscripcionDTO inscripcionDTO = new InscripcionDTO(inscripcion.getId(), inscripcion.getCarrera().getId(), inscripcion.getEstudiante().getDni(), inscripcion.getInscripcion(), inscripcion.getGraduacion(), inscripcion.getAntiguedad());
+        return new EstadoOperacionDTO<>( true, inscripcionDTO);
     }
 }
